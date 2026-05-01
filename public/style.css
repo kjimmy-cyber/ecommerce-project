@@ -1,0 +1,149 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  background: #111827;
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #38bdf8;
+}
+
+/* LOGOUT BUTTON */
+nav button {
+  background: #ef4444;
+  border: none;
+  padding: 8px 12px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+nav button:hover {
+  background: #dc2626;
+}
+
+/* ===== PAGE CONTAINER ===== */
+.container {
+  padding: 20px;
+}
+
+/* TITLE */
+h1 {
+  text-align: center;
+  margin: 20px 0;
+  color: #111827;
+}
+
+/* USER INFO */
+#username {
+  font-weight: bold;
+  color: #2563eb;
+}
+
+/* ===== PRODUCT GRID (IMPORTANT) ===== */
+#products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* ===== PRODUCT CARD ===== */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: 0.3s;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* PRODUCT TEXT */
+.card h3 {
+  margin-bottom: 10px;
+  color: #111827;
+}
+
+.card p {
+  margin: 5px 0;
+  color: #374151;
+}
+
+/* ===== BUTTONS ===== */
+.update {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 7px 10px;
+  margin: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.update:hover {
+  background: #2563eb;
+}
+
+.delete {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 7px 10px;
+  margin: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete:hover {
+  background: #dc2626;
+}
+
+/* ===== INPUTS (ADD PAGE) ===== */
+input {
+  padding: 10px;
+  margin: 5px;
+  width: 220px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+/* ADD BUTTON */
+button {
+  padding: 10px 15px;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #059669;
+}
+
+/* MARQUEE TITLE */
+marquee h1 {
+  color: #111827;
+}

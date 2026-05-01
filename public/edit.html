@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Update Product</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html">back</a>
+</nav>
+
+<div class="container">
+  <h1>Update Product</h1>
+
+  <input id="name" placeholder="Name">
+  <input id="price" placeholder="Price">
+  <input id="quantity" placeholder="Quantity">
+
+  <button onclick="updateProduct()">Update</button>
+</div>
+
+<script>
+const id = new URLSearchParams(window.location.search).get("id");
+
+async function loadProduct() {
+  const res = await fetch("/products");
+  const data = await res.json();
+  const product = data.find(p => p.id == id);
+
+  name.value = product.name;
+  price.value = product.price;
+  quantity.value = product.quantity;
+}
+
+async function updateProduct() {
+  await fetch(`/products/${id}`, {
+    method: "PUT",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      name: name.value,
+      price: Number(price.value),
+      quantity: Number(quantity.value)
+    })
+  });
+
+  alert("Updated!");
+  window.location.href = "index.html";
+}
+
+loadProduct();
+</script>
+
+</body>
+</html>
