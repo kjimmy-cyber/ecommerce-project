@@ -112,3 +112,19 @@ This project includes authentication, product management (CRUD), shopping cart s
 
 ## 📁 Project Structure
  Project Structure
+📦 ecommerce-project
+ ┣ 📂 prisma
+ ┃ ┣ 📜 schema.prisma
+ ┃ ┗ 📂 migrations
+ ┣ 📂 public
+ ┃ ┣ 📜 index.html
+ ┃ ┣ 📜 login.html
+ ┃ ┣ 📜 register.html
+ ┃ ┣ 📜 cart.html
+ ┃ ┣ 📜 admin.html
+ ┃ ┗ 📜 style.css
+ ┣ 📜 server.js
+ ┣ 📜 index.js
+ ┣ 📜 package.json
+ ┣ 📜 .env
+ ┗ 📜 README.md
