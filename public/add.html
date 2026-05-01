@@ -2,38 +2,32 @@
 <html>
 <head>
   <title>Add Product</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<center>
+
 <h1>Add Product</h1>
 
-<input id="name" placeholder="Name"><br><br>
-<input id="price" placeholder="Price"><br><br>
-<input id="quantity" placeholder="Quantity"><br><br>
-<button onclick="addProduct()">Add Product</button>
-  <a href="index.html">Back</a>
+<input id="name" placeholder="Name">
+<input id="price" placeholder="Price">
+<input id="quantity" placeholder="Quantity">
+<input id="image" placeholder="Image URL">
 
-</center>
+<button onclick="addProduct()">Add Product</button>
+
 <script>
 async function addProduct() {
-  const product = {
-    name: document.getElementById("name").value,
-    price: Number(document.getElementById("price").value),
-    quantity: Number(document.getElementById("quantity").value)
-  };
-
-  const res = await fetch("http://localhost:3000/products", {
+  await fetch("/products", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(product)
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: name.value,
+      price: Number(price.value),
+      quantity: Number(quantity.value),
+      image: image.value
+    })
   });
 
-  const data = await res.json();
-  console.log(data);
-
+  loadProducts(); // optional (only if you have list on same page)
   alert("Product added!");
 }
 </script>

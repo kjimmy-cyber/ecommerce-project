@@ -2,11 +2,12 @@
 <html>
 <head>
   <title>Products</title>
-  <link rel="stylesheet" href="style.css">        
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!--  LOGIN PROTECTION -->
+<!-- 🔐 LOGIN PROTECTION -->
 <script>
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -19,16 +20,18 @@ if (!user) {
 <nav>
   <a href="index.html">Home</a>
   <a href="add.html">Add</a>
-  <a href="cart.html">Cart </a>
+  <a href="cart.html">Cart</a>
   <button onclick="logout()">Logout</button>
 </nav>
 
 <div class="container">
-  <marquee><h1>Products List</h1></marquee>
+
+  <marquee><h1>🛒 Products Store</h1></marquee>
 
   <p>Welcome: <span id="username"></span></p>
 
-  <div id="products"></div>
+  <div id="products" class="product-grid"></div>
+
 </div>
 
 <script>
@@ -44,14 +47,20 @@ async function loadProducts() {
 
   document.getElementById("products").innerHTML = data.map(p => `
     <div class="card">
-      <h3>${p.name}</h3>
-      <p>Price: ${p.price}</p>
-      <p>Quantity: ${p.quantity}</p>
 
-      <!--  ADD TO CART -->
+      <!-- 🖼 PRODUCT IMAGE -->
+      <img src="${p.image || 'https://via.placeholder.com/150'}" class="product-img">
+
+      <h3>${p.name}</h3>
+      <p>💰 Price: ${p.price} RWF</p>
+      <p>📦 Quantity: ${p.quantity}</p>
+
+      <!-- 🛒 CART -->
       <button onclick="addToCart(${p.id}, '${p.name}', ${p.price})">
         Add to Cart
       </button>
+
+      <br><br>
 
       <a href="edit.html?id=${p.id}">
         <button class="update">Update</button>
@@ -60,11 +69,12 @@ async function loadProducts() {
       <a href="delete.html?id=${p.id}">
         <button class="delete">Delete</button>
       </a>
+
     </div>
   `).join("");
 }
 
-/*  CART FUNCTION */
+/* 🛒 CART SYSTEM */
 function addToCart(id, name, price) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -72,10 +82,10 @@ function addToCart(id, name, price) {
 
   localStorage.setItem("cart", JSON.stringify(cart));
 
-  alert("Added to cart ");
+  alert("Added to cart 🛒");
 }
 
-/* LOGOUT */
+
 function logout() {
   localStorage.removeItem("user");
   window.location.href = "login.html";
