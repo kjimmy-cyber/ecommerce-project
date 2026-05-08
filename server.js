@@ -1,7 +1,12 @@
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const { PrismaClient } = require("@prisma/client");
+
+const multer = require("multer");
+const path = require("path");
 
 const app = express();
 const prisma = new PrismaClient();
@@ -12,6 +17,22 @@ const prisma = new PrismaClient();
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
+
+/* ========================
+   IMAGE UPLOAD SETUP
+======================== */
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage });
+
+app.use("/uploads", express.static("uploads"));
 
 /* ========================
    HOME
@@ -34,10 +55,10 @@ app.get("/products", async (req, res) => {
   }
 });
 
-// CREATE PRODUCT
-app.post("/products", async (req, res) => {
+// CREATE PRODUCT (WITH IMAGE UPLOAD)
+app.post("/products", upload.single("image"), async (req, res) => {
   try {
-    const { name, price, quantity, description, image } = req.body;
+    const { name, price, quantity, description } = req.body;
 
     if (!name) {
       return res.status(400).json({ error: "Name is required" });
@@ -49,7 +70,7 @@ app.post("/products", async (req, res) => {
         price: Number(price),
         quantity: Number(quantity),
         description,
-        image
+        image: req.file ? `/uploads/${req.file.filename}` : null
       }
     });
 
@@ -131,8 +152,19 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Wrong password" });
     }
 
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        role: user.role
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
     res.json({
       message: "Login successful",
+      token,
       user: {
         id: user.id,
         email: user.email,
@@ -146,9 +178,8 @@ app.post("/login", async (req, res) => {
 });
 
 /* ========================
-   CHECKOUT (ORDERS)
+   CHECKOUT
 ======================== */
-
 app.post("/checkout", async (req, res) => {
   try {
     const { userId, cart, total } = req.body;
@@ -173,8 +204,29 @@ app.post("/checkout", async (req, res) => {
 });
 
 /* ========================
+   ADMIN ROUTES
+======================== */
+
+app.get("/orders", async (req, res) => {
+  const orders = await prisma.order.findMany();
+  res.json(orders);
+});
+
+app.get("/stats", async (req, res) => {
+  const products = await prisma.product.count();
+  const users = await prisma.user.count();
+  const orders = await prisma.order.count();
+
+  res.json({
+    products,
+    users,
+    orders
+  });
+});
+
+/* ========================
    SERVER START
 ======================== */
 app.listen(3000, () => {
-  console.log(" Server running on http://localhost:3000");
+  console.log("Server running on http://localhost:3000");
 });

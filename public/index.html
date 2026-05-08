@@ -1,32 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Products</title>
+  <title>KJ Shop</title>
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    .product-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 10px;
+      background: white;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+
+    .update { background: orange; color: white; }
+    .delete { background: red; color: white; }
+  </style>
 </head>
 
 <body>
 
-<!-- 🔐 LOGIN PROTECTION -->
+<!-- LOGIN PROTECTION -->
 <script>
 const user = JSON.parse(localStorage.getItem("user"));
+const token = localStorage.getItem("token");
 
-if (!user) {
+if (!user || !token) {
   alert("Please login first");
   window.location.href = "login.html";
 }
 </script>
 
+<!-- NAVBAR -->
 <nav>
   <a href="index.html">Home</a>
-  <a href="add.html">Add</a>
   <a href="cart.html">Cart</a>
+  <span id="adminLinks"></span>
   <button onclick="logout()">Logout</button>
 </nav>
 
+<!-- MAIN -->
 <div class="container">
 
-  <marquee><h1>🛒 Products Store</h1></marquee>
+  <marquee><h1>🛒 KJ Shop</h1></marquee>
 
   <p>Welcome: <span id="username"></span></p>
 
@@ -37,57 +72,86 @@ if (!user) {
 <script>
 const API = "http://localhost:3000/products";
 
-/* SHOW USER */
 document.getElementById("username").innerText = user.email;
+
+/* ADMIN LINKS */
+if (user.role === "admin") {
+  document.getElementById("adminLinks").innerHTML = `
+    <a href="add.html">Add Product</a>
+    <a href="admin.html">Dashboard</a>
+  `;
+}
 
 /* LOAD PRODUCTS */
 async function loadProducts() {
-  const res = await fetch(API);
-  const data = await res.json();
+  try {
+    const res = await fetch(API);
+    const data = await res.json();
 
-  document.getElementById("products").innerHTML = data.map(p => `
-    <div class="card">
+    document.getElementById("products").innerHTML = data.map(p => `
 
-      <!-- 🖼 PRODUCT IMAGE -->
-      <img src="${p.image || 'https://via.placeholder.com/150'}" class="product-img">
+      <div class="card">
 
-      <h3>${p.name}</h3>
-      <p>💰 Price: ${p.price} RWF</p>
-      <p>📦 Quantity: ${p.quantity}</p>
+        <!-- IMAGE FIX (BACKEND + UNSPLASH FALLBACK) -->
+        <img src="${p.image 
+          ? 'http://localhost:3000' + p.image 
+          : 'https://source.unsplash.com/400x300/?phone,laptop,tech'}" 
+          class="product-img">
 
-      <!-- 🛒 CART -->
-      <button onclick="addToCart(${p.id}, '${p.name}', ${p.price})">
-        Add to Cart
-      </button>
+        <h3>${p.name}</h3>
+        <p>💰 Price: ${p.price} RWF</p>
+        <p>📦 Quantity: ${p.quantity}</p>
 
-      <br><br>
+        <button onclick="addToCart(${p.id}, '${p.name}', ${p.price})">
+          Add to Cart
+        </button>
 
-      <a href="edit.html?id=${p.id}">
-        <button class="update">Update</button>
-      </a>
+        ${user.role === "admin" ? `
+          <br><br>
 
-      <a href="delete.html?id=${p.id}">
-        <button class="delete">Delete</button>
-      </a>
+          <a href="edit.html?id=${p.id}">
+            <button class="update">Update</button>
+          </a>
 
-    </div>
-  `).join("");
+          <button onclick="deleteProduct(${p.id})" class="delete">
+            Delete
+          </button>
+        ` : ""}
+
+      </div>
+
+    `).join("");
+
+  } catch (error) {
+    alert("Failed to load products");
+  }
 }
 
-/* 🛒 CART SYSTEM */
+/* ADD TO CART */
 function addToCart(id, name, price) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
   cart.push({ id, name, price });
-
   localStorage.setItem("cart", JSON.stringify(cart));
-
   alert("Added to cart 🛒");
 }
 
+/* DELETE PRODUCT */
+async function deleteProduct(id) {
+  if (!confirm("Delete this product?")) return;
 
+  await fetch(`${API}/${id}`, {
+    method: "DELETE"
+  });
+
+  alert("Product deleted");
+  loadProducts();
+}
+
+/* LOGOUT */
 function logout() {
   localStorage.removeItem("user");
+  localStorage.removeItem("token");
+  localStorage.removeItem("cart");
   window.location.href = "login.html";
 }
 

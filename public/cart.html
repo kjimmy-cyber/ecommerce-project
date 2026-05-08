@@ -6,6 +6,16 @@
 </head>
 <body>
 
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+const token = localStorage.getItem("token");
+
+if (!user || !token) {
+  alert("Please login first");
+  window.location.href = "login.html";
+}
+</script>
+
 <nav>
   <a href="index.html">Home</a>
   <a href="cart.html">Cart</a>
@@ -70,17 +80,37 @@ function clearCart() {
 }
 
 /* CHECKOUT */
-function checkout() {
+async function checkout() {
   if (cart.length === 0) {
     alert("Cart is empty");
     return;
   }
 
-  alert("Order placed successfully 🎉");
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
 
-  localStorage.removeItem("cart");
-  cart = [];
-  loadCart();
+  const res = await fetch("http://localhost:3000/checkout", {
+    method: "POST",
+    headers: {
+      "Content-Type":"application/json"
+    },
+    body: JSON.stringify({
+      userId: user.id,
+      cart,
+      total
+    })
+  });
+
+  const data = await res.json();
+
+  if (data.error) {
+    alert(data.error);
+  } else {
+    alert("Order placed successfully 🎉");
+
+    localStorage.removeItem("cart");
+    cart = [];
+    loadCart();
+  }
 }
 
 loadCart();

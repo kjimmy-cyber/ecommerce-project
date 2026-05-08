@@ -7,15 +7,14 @@
 <body>
 
 <script>
-// 🔐 PROTECT PAGE
 const user = JSON.parse(localStorage.getItem("user"));
+const token = localStorage.getItem("token");
 
-if (!user) {
+if (!user || !token) {
   alert("Please login first");
   window.location.href = "login.html";
 }
 
-// only admin allowed (simple check)
 if (user.role !== "admin") {
   alert("Access denied: Admin only");
   window.location.href = "index.html";
@@ -32,6 +31,8 @@ if (user.role !== "admin") {
 
   <h1>Admin Dashboard</h1>
   <p>Welcome Admin: <span id="email"></span></p>
+
+  <div id="stats" class="stats"></div>
 
   <table border="1" width="100%" style="margin-top:20px; background:white;">
     <thead>
@@ -54,6 +55,7 @@ const API = "http://localhost:3000/products";
 
 document.getElementById("email").innerText = user.email;
 
+/* LOAD PRODUCTS */
 async function loadProducts() {
   const res = await fetch(API);
   const data = await res.json();
@@ -66,27 +68,47 @@ async function loadProducts() {
       <td>${p.quantity}</td>
       <td>
         <button onclick="editProduct(${p.id})">Edit</button>
-        <button onclick="deleteProduct(${p.id})" style="background:red;">Delete</button>
+        <button onclick="deleteProduct(${p.id})" style="background:red;">
+          Delete
+        </button>
       </td>
     </tr>
   `).join("");
 }
 
+/* LOAD STATS */
+async function loadStats() {
+  const res = await fetch("http://localhost:3000/stats");
+  const data = await res.json();
+
+  document.getElementById("stats").innerHTML = `
+    <div class="card">📦 Products: ${data.products}</div>
+    <div class="card">👤 Users: ${data.users}</div>
+    <div class="card">🛒 Orders: ${data.orders}</div>
+  `;
+}
+
+/* DELETE */
 async function deleteProduct(id) {
   await fetch(`${API}/${id}`, { method: "DELETE" });
   loadProducts();
+  loadStats();
 }
 
+/* EDIT */
 function editProduct(id) {
   window.location.href = `edit.html?id=${id}`;
 }
 
+/* LOGOUT */
 function logout() {
   localStorage.removeItem("user");
+  localStorage.removeItem("token");
   window.location.href = "login.html";
 }
 
 loadProducts();
+loadStats();
 </script>
 
 </body>

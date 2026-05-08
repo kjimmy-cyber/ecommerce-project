@@ -7,18 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/* =======================
-   MODELS
-======================= */
-
+/**
+ * =======================
+ * USER
+ * =======================
+ */
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  role      String   @default("user")
-  createdAt DateTime @default(now())
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  role     String @default("user")
+
+  orders Order[]
 }
 
+/**
+ * =======================
+ * PRODUCT
+ * =======================
+ */
 model Product {
   id          Int      @id @default(autoincrement())
   name        String
@@ -29,17 +36,17 @@ model Product {
   createdAt   DateTime @default(now())
 }
 
+/**
+ * =======================
+ * ORDER
+ * =======================
+ */
 model Order {
   id        Int      @id @default(autoincrement())
   userId    Int
   total     Float
+  items     String
   createdAt DateTime @default(now())
-}
 
-model OrderItem {
-  id        Int @id @default(autoincrement())
-  orderId   Int
-  productId Int
-  quantity  Int
-  price     Float
+  user User @relation(fields: [userId], references: [id])
 }

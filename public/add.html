@@ -2,35 +2,78 @@
 <html>
 <head>
   <title>Add Product</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+const token = localStorage.getItem("token");
+
+if (!user || !token) {
+  alert("Please login first");
+  window.location.href = "login.html";
+}
+
+if (user.role !== "admin") {
+  alert("Access denied");
+  window.location.href = "index.html";
+}
+</script>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="admin.html">Dashboard</a>
+</nav>
+
+<div class="container">
+
 <h1>Add Product</h1>
 
-<input id="name" placeholder="Name">
-<input id="price" placeholder="Price">
-<input id="quantity" placeholder="Quantity">
-<input id="image" placeholder="Image URL">
+<input id="name" placeholder="Product Name"><br><br>
+<input id="price" placeholder="Price"><br><br>
+<input id="quantity" placeholder="Quantity"><br><br>
+<input id="description" placeholder="Description"><br><br>
+<input type="file" id="image"><br><br>
 
 <button onclick="addProduct()">Add Product</button>
 
+</div>
 <script>
 async function addProduct() {
-  await fetch("/products", {
+  const formData = new FormData();
+
+  formData.append("name", name.value);
+  formData.append("price", price.value);
+  formData.append("quantity", quantity.value);
+  formData.append("image", image.files[0]);
+
+  const res = await fetch("http://localhost:3000/products", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name: name.value,
-      price: Number(price.value),
-      quantity: Number(quantity.value),
-      image: image.value
-    })
+    body: formData
   });
 
-  loadProducts(); // optional (only if you have list on same page)
-  alert("Product added!");
+  const data = await res.json();
+
+  if (data.error) {
+    alert(data.error);
+  } else {
+    alert("Product added successfully!");
+    window.location.href = "admin.html";
+  }
 }
 </script>
+
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>
