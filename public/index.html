@@ -5,42 +5,289 @@
   <link rel="stylesheet" href="style.css">
 
   <style>
-    .product-img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
 
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
 
-    .card {
-      border: 1px solid #ddd;
-      padding: 15px;
-      border-radius: 10px;
-      background: white;
-    }
+body{
+  background:#f3f4f6;
+}
 
-    button {
-      padding: 8px 12px;
-      margin-top: 5px;
-      cursor: pointer;
-    }
+/* NAVBAR */
 
-    .update { background: orange; color: white; }
-    .delete { background: red; color: white; }
+nav{
+  background:#131921;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 30px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+nav h2{
+  color:#ff9900;
+}
+
+nav a{
+  color:white;
+  text-decoration:none;
+  margin:0 10px;
+  font-weight:bold;
+}
+
+nav a:hover{
+  color:#ff9900;
+}
+
+nav button{
+  background:#ff9900;
+  border:none;
+  padding:10px 15px;
+  border-radius:5px;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+/* HERO */
+
+.hero{
+  height:450px;
+  background:url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1400') center/cover;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.hero-text{
+  background:rgba(0,0,0,0.6);
+  padding:40px;
+  border-radius:15px;
+  color:white;
+}
+
+.hero-text h1{
+  font-size:55px;
+  margin-bottom:20px;
+}
+
+.hero-text p{
+  font-size:22px;
+  margin-bottom:20px;
+}
+
+.hero-text button{
+  background:#ff9900;
+  border:none;
+  padding:15px 25px;
+  font-size:18px;
+  border-radius:8px;
+  cursor:pointer;
+  color:white;
+}
+
+/* SLIDER */
+
+.slider img{
+  width:100%;
+  height:350px;
+  object-fit:cover;
+}
+
+/* CONTAINER */
+
+.container{
+  width:95%;
+  margin:auto;
+  padding:30px 0;
+}
+
+.container h1{
+  margin-bottom:15px;
+}
+
+/* SEARCH */
+
+#search{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:10px;
+  margin:20px 0;
+  font-size:16px;
+}
+
+/* CATEGORIES */
+
+.categories{
+  margin-bottom:25px;
+}
+
+.categories button{
+  background:#111827;
+  color:white;
+  border:none;
+  padding:10px 20px;
+  border-radius:5px;
+  margin-right:10px;
+  cursor:pointer;
+}
+
+.categories button:hover{
+  background:#ff9900;
+}
+
+/* PRODUCTS */
+
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:25px;
+}
+
+.card{
+  background:white;
+  border-radius:15px;
+  padding:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  transition:0.3s;
+  text-align:center;
+}
+
+.card:hover{
+  transform:translateY(-8px);
+}
+
+.product-img{
+  width:100%;
+  height:230px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.card h3{
+  margin:15px 0 10px;
+}
+
+.card p{
+  margin:5px 0;
+  color:#555;
+}
+
+.card button{
+  border:none;
+  padding:10px 15px;
+  margin-top:10px;
+  border-radius:5px;
+  cursor:pointer;
+  color:white;
+  font-weight:bold;
+}
+
+.add-btn{
+  background:#2563eb;
+}
+
+.view-btn{
+  background:#111827;
+}
+
+.update{
+  background:green;
+}
+
+.delete{
+  background:red;
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  z-index:9999;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content{
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  width:350px;
+  text-align:center;
+  position:relative;
+}
+
+.modal-content img{
+  width:100%;
+  height:250px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.close{
+  position:absolute;
+  top:10px;
+  right:15px;
+  font-size:28px;
+  cursor:pointer;
+}
+
+/* FOOTER */
+
+footer{
+  background:#111827;
+  color:white;
+  text-align:center;
+  padding:40px;
+  margin-top:50px;
+}
+
+footer h2{
+  margin-bottom:10px;
+  color:#ff9900;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  nav{
+    flex-direction:column;
+    gap:15px;
+  }
+
+  .hero-text h1{
+    font-size:35px;
+  }
+
+  .hero-text p{
+    font-size:18px;
+  }
+
+}
+
   </style>
 </head>
 
 <body>
 
-<!-- LOGIN PROTECTION -->
 <script>
+
 const user = JSON.parse(localStorage.getItem("user"));
 const token = localStorage.getItem("token");
 
@@ -48,114 +295,430 @@ if (!user || !token) {
   alert("Please login first");
   window.location.href = "login.html";
 }
+
 </script>
 
 <!-- NAVBAR -->
+
 <nav>
-  <a href="index.html">Home</a>
-  <a href="cart.html">Cart</a>
-  <span id="adminLinks"></span>
-  <button onclick="logout()">Logout</button>
+
+  <h2>🛒 KJ Shop</h2>
+
+  <div>
+
+    <a href="index.html">Home</a>
+    <a href="cart.html">Cart</a>
+
+    <span id="adminLinks"></span>
+
+    <button onclick="logout()">
+      Logout
+    </button>
+
+  </div>
+
 </nav>
 
+<!-- HERO -->
+
+<section class="hero">
+
+  <div class="hero-text">
+
+    <h1>Welcome to KJ Shop</h1>
+
+    <p>
+      Best Electronics Store In Rwanda
+    </p>
+
+    <button onclick="window.location='#productsSection'">
+      Shop Now
+    </button>
+
+  </div>
+
+</section>
+
+<!-- SLIDER -->
+
+<div class="slider">
+
+  <img
+    id="slide"
+    src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1200"
+  >
+
+</div>
+
 <!-- MAIN -->
-<div class="container">
 
-  <marquee><h1>🛒 KJ Shop</h1></marquee>
+<div class="container" id="productsSection">
 
-  <p>Welcome: <span id="username"></span></p>
+  <h1>🔥 Trending Products</h1>
+
+  <p>
+    Welcome:
+    <b id="username"></b>
+  </p>
+
+  <!-- SEARCH -->
+
+  <input
+    type="text"
+    id="search"
+    placeholder="Search products..."
+    onkeyup="searchProducts()"
+  >
+
+  <!-- CATEGORIES -->
+
+  <div class="categories">
+
+    <button onclick="filterCategory('all')">
+      All
+    </button>
+
+    <button onclick="filterCategory('phone')">
+      Phones
+    </button>
+
+    <button onclick="filterCategory('laptop')">
+      Laptops
+    </button>
+
+  </div>
+
+  <!-- PRODUCTS -->
 
   <div id="products" class="product-grid"></div>
 
 </div>
 
-<script>
-const API = "http://localhost:3000/products";
+<!-- MODAL -->
 
-document.getElementById("username").innerText = user.email;
+<div id="modal" class="modal">
+
+  <div class="modal-content">
+
+    <span class="close"
+    onclick="closeModal()">
+      &times;
+    </span>
+
+    <img id="modalImg">
+
+    <h2 id="modalName"></h2>
+
+    <p id="modalPrice"></p>
+
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer>
+
+  <h2>KJ Shop</h2>
+
+  <p>
+    Your trusted electronics shop in Rwanda
+  </p>
+
+  <br>
+
+  <p>
+    © 2026 KJ Shop. All Rights Reserved.
+  </p>
+
+</footer>
+
+<script>
+
+/* SLIDER IMAGES */
+
+const slides = [
+
+"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1200",
+
+"https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=1200",
+
+"https://images.unsplash.com/photo-1517336714739-489689fd1ca8?q=80&w=1200",
+
+"https://images.unsplash.com/photo-1580910051074-3eb694886505?q=80&w=1200",
+
+"https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=1200",
+
+"https://images.unsplash.com/photo-1526738549149-8e07eca6c147?q=80&w=1200",
+
+"https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?q=80&w=1200",
+
+"https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=1200"
+
+];
+
+let current = 0;
+
+setInterval(() => {
+
+  current++;
+
+  if(current >= slides.length){
+    current = 0;
+  }
+
+  document.getElementById("slide").src =
+  slides[current];
+
+},3000);
+
+/* API */
+
+const API =
+"http://localhost:3000/products";
+
+document.getElementById("username").innerText =
+user.email;
 
 /* ADMIN LINKS */
-if (user.role === "admin") {
-  document.getElementById("adminLinks").innerHTML = `
-    <a href="add.html">Add Product</a>
-    <a href="admin.html">Dashboard</a>
+
+if(user.role === "admin"){
+
+  document.getElementById("adminLinks")
+  .innerHTML = `
+
+    <a href="add.html">
+      Add Product
+    </a>
+
+    <a href="admin.html">
+      Dashboard
+    </a>
+
   `;
 }
 
 /* LOAD PRODUCTS */
-async function loadProducts() {
-  try {
-    const res = await fetch(API);
-    const data = await res.json();
 
-    document.getElementById("products").innerHTML = data.map(p => `
+async function loadProducts(){
 
-      <div class="card">
-        <img src="${p.image
-  ? (p.image.startsWith('http')
-      ? p.image
-      : 'http://localhost:3000' + p.image)
-  : 'http://localhost:3000/uploads/sung.jpeg'}"
-  class="product-img">
-        <h3>${p.name}</h3>
-        <p>💰 Price: ${p.price} RWF</p>
-        <p>📦 Quantity: ${p.quantity}</p>
+  const res =
+  await fetch(API);
 
-        <button onclick="addToCart(${p.id}, '${p.name}', ${p.price})">
-          Add to Cart
+  const data =
+  await res.json();
+
+  document.getElementById("products")
+  .innerHTML = data.map(p => `
+
+    <div class="card"
+
+    data-category="${
+      p.name.toLowerCase().includes('laptop')
+      ? 'laptop'
+      : 'phone'
+    }">
+
+      <img
+
+      src="${
+        p.image
+        ? 'http://localhost:3000'+p.image
+        : 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600'
+      }"
+
+      class="product-img">
+
+      <h3>${p.name}</h3>
+
+      <p>
+        💰 ${p.price} RWF
+      </p>
+
+      <p>
+        📦 ${p.quantity}
+      </p>
+
+      <button
+      class="add-btn"
+
+      onclick="addToCart(
+      ${p.id},
+      '${p.name}',
+      ${p.price}
+      )">
+
+        Add To Cart
+
+      </button>
+
+      <button
+      class="view-btn"
+
+      onclick="openModal(
+      '${
+        p.image
+        ? 'http://localhost:3000'+p.image
+        : 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600'
+      }',
+      '${p.name}',
+      '${p.price}'
+      )">
+
+        View
+
+      </button>
+
+      ${user.role === "admin" ? `
+
+      <br><br>
+
+      <a href="edit.html?id=${p.id}">
+        <button class="update">
+          Update
         </button>
-        
+      </a>
 
-        ${user.role === "admin" ? `
-          <br><br>
+      <button
+      onclick="deleteProduct(${p.id})"
+      class="delete">
 
-          <a href="edit.html?id=${p.id}">
-            <button class="update">Update</button>
-          </a>
+        Delete
 
-          <button onclick="deleteProduct(${p.id})" class="delete">
-            Delete
-          </button>
-        ` : ""}
+      </button>
 
-      </div>
+      ` : ""}
 
-    `).join("");
+    </div>
 
-  } catch (error) {
-    alert("Failed to load products");
-  }
+  `).join("");
+}
+
+/* SEARCH */
+
+function searchProducts(){
+
+  const value =
+  document.getElementById("search")
+  .value.toLowerCase();
+
+  const cards =
+  document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+
+    const text =
+    card.innerText.toLowerCase();
+
+    card.style.display =
+    text.includes(value)
+    ? "block"
+    : "none";
+
+  });
+}
+
+/* FILTER */
+
+function filterCategory(category){
+
+  const cards =
+  document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+
+    if(
+      category === "all" ||
+      card.dataset.category === category
+    ){
+
+      card.style.display =
+      "block";
+
+    }else{
+
+      card.style.display =
+      "none";
+
+    }
+
+  });
 }
 
 /* ADD TO CART */
-function addToCart(id, name, price) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart.push({ id, name, price });
-  localStorage.setItem("cart", JSON.stringify(cart));
+
+function addToCart(id,name,price){
+
+  let cart =
+  JSON.parse(
+  localStorage.getItem("cart")
+  ) || [];
+
+  cart.push({
+    id,
+    name,
+    price
+  });
+
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cart)
+  );
+
   alert("Added to cart 🛒");
 }
 
-/* DELETE PRODUCT */
-async function deleteProduct(id) {
-  if (!confirm("Delete this product?")) return;
+/* DELETE */
 
-  await fetch(`${API}/${id}`, {
-    method: "DELETE"
+async function deleteProduct(id){
+
+  if(!confirm("Delete product?"))
+  return;
+
+  await fetch(`${API}/${id}`,{
+    method:"DELETE"
   });
 
-  alert("Product deleted");
   loadProducts();
 }
 
+/* MODAL */
+
+function openModal(image,name,price){
+
+  document.getElementById("modal")
+  .style.display = "flex";
+
+  document.getElementById("modalImg")
+  .src = image;
+
+  document.getElementById("modalName")
+  .innerText = name;
+
+  document.getElementById("modalPrice")
+  .innerText = price + " RWF";
+}
+
+function closeModal(){
+
+  document.getElementById("modal")
+  .style.display = "none";
+}
+
 /* LOGOUT */
-function logout() {
+
+function logout(){
+
   localStorage.removeItem("user");
   localStorage.removeItem("token");
   localStorage.removeItem("cart");
-  window.location.href = "login.html";
+
+  window.location.href =
+  "login.html";
 }
 
 loadProducts();
+
 </script>
 
 </body>

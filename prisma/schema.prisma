@@ -7,25 +7,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/**
- * =======================
- * USER
- * =======================
- */
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
   password String
-  role     String @default("user")
+  role     String   @default("user")
 
-  orders Order[]
+  orders   Order[]
 }
 
-/**
- * =======================
- * PRODUCT
- * =======================
- */
 model Product {
   id          Int      @id @default(autoincrement())
   name        String
@@ -36,11 +26,6 @@ model Product {
   createdAt   DateTime @default(now())
 }
 
-/**
- * =======================
- * ORDER
- * =======================
- */
 model Order {
   id        Int      @id @default(autoincrement())
   userId    Int

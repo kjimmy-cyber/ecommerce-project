@@ -222,7 +222,26 @@ app.get("/stats", async (req, res) => {
     orders
   });
 });
+// GET ALL USERS
+app.get("/users", async (req, res) => {
+  try {
 
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        role: true
+      }
+    });
+
+    res.json(users);
+
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to get users"
+    });
+  }
+});
 /* ========================
    SERVER START
 ======================== */
